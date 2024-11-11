@@ -1,0 +1,8 @@
+.card__likes {
+    width: 100%;
+    max-width: 22px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}

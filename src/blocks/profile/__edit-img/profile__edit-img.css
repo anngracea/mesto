@@ -1,0 +1,17 @@
+.profile__edit-img {
+    width: 26px;
+    height: 26px;
+
+    position: absolute;
+    top: 80px;
+    left: 47px;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility ease-in-out 0.3s, opacity ease-in-out 0.3s;
+}
+
+.profile__edit-img_visible {
+    visibility: visible;
+    opacity: 1;
+}
