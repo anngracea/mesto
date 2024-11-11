@@ -45,6 +45,8 @@ function setEventListener(formElement, config) {
     const buttonElement = formElement.querySelector(config.submitButtonSelector);
     const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
 
+    toggleButtonState(buttonElement, inputList);
+
     inputList.forEach((input) => {
         input.addEventListener('input', () => {
             checkInputValidity(input, formElement, config);
@@ -69,7 +71,6 @@ function clearValidation(formElement, config) {
         const spanIdSelector = `#${input.name}-error`;
         const errorElement = formElement.querySelector(spanIdSelector);
 
-        hideError(input, errorElement, config);
-        toggleButtonState(buttonElement, inputList);
+        hideError(input, errorElement, config)
     });
 }

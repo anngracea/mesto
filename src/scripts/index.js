@@ -113,12 +113,12 @@ function handleNewCardFormSubmit(event) {
 
     postNewCardApi(placeInput, imageInput)
         .then(res => {
-            closeModal(newCardPopup)
+            closeModal(newCardPopup);
+            placesList.prepend(newCard);
         })
         .catch(err => logError(err))
         .finally(() => {
-            newCardSubmitButton.textContent = 'Создать';
-            window.location.reload();
+            newCardSubmitButton.textContent = 'Создать'
         });
 }
 
