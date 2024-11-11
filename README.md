@@ -1,4 +1,4 @@
 # Проект Mesto
 
-https://github.com/anngracea/mesto-project-ff
+https://github.com/anngracea/mesto
 
