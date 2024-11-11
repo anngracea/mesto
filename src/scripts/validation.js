@@ -71,6 +71,6 @@ function clearValidation(formElement, config) {
         const spanIdSelector = `#${input.name}-error`;
         const errorElement = formElement.querySelector(spanIdSelector);
 
-        hideError(input, errorElement, config)
+        hideError(input, errorElement, config);
     });
 }

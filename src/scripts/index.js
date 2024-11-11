@@ -133,7 +133,7 @@ function handleNewCardFormSubmit(event) {
         })
         .catch(err => logError(err))
         .finally(() => {
-            newCardSubmitButton.textContent = 'Создать'
+            newCardSubmitButton.textContent = 'Создать';
         });
 }
 
