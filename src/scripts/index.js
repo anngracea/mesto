@@ -113,8 +113,23 @@ function handleNewCardFormSubmit(event) {
 
     postNewCardApi(placeInput, imageInput)
         .then(res => {
-            closeModal(newCardPopup);
+            const newCard = createCard(
+                {
+                    name: res.name,
+                    link: res.link,
+                    likes: res.likes,
+                    owner: res.owner,
+                    _id: res._id,
+                },
+                deleteCard,
+                likeCard,
+                openImagePopup,
+                userId
+            );
+
             placesList.prepend(newCard);
+
+            closeModal(newCardPopup);
         })
         .catch(err => logError(err))
         .finally(() => {
