@@ -1,2 +1,3 @@
-https://anngracea.github.io/mesto/
-https://github.com/anngracea/mesto/
+GH-pages: https://anngracea.github.io/mesto/
+
+Repo: https://github.com/anngracea/mesto/
