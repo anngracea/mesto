@@ -1,18 +1,16 @@
 import './index.css';
 
 import {
-  closePopup,
-  openPopup,
-  handlePopupClick,
-} from '../components/popup.js';
+  closeModal,
+  openModal,
+  handleModalClick,
+} from '../components/modal.js';
 
-import { renderCard } from '../components/card.js';
+import { renderCard, handleCardLike, removeCard } from '../components/card.js';
 
 import {
   addCard as APIAddCard,
   deleteCard as APIDeleteCard,
-  likeCard as APILikeCard,
-  unlikeCard as APIUnLikeCard,
   fetchAllCards as APIFetchCards,
   fetchUserProfile as APIFetchProfile,
   changeUserAvatar as APIChangeAvatar,
@@ -40,7 +38,7 @@ const popupImageElement = popupImageView.querySelector('.popup__image');
 const cardListContainer = querySelector('.places__list');
 const cardTemplateElement = querySelector('#card-template').content;
 const cardCreationForm = document.forms['new-place'];
-const cardCreationSubmitButton = querySelector('.popup__button');
+const cardCreationSubmitButton = cardCreationForm.querySelector('.popup__button');
 const cardTitleInput = cardCreationForm.elements['place-name'];
 const cardImageInput = cardCreationForm.elements.link;
 
@@ -49,14 +47,14 @@ const openNewCardPopupButton = querySelector('.profile__add-button');
 
 const avatarEditForm = document.forms['edit-avatar'];
 const avatarUrlInput = avatarEditForm.elements.avatar;
-const avatarEditSubmitButton = querySelector('.popup__button');
-const popupEditAvatar = querySelector('.popup_type_edit-avatar');
+const avatarEditSubmitButton = avatarEditForm.querySelector('.popup__button');
+const popupEditAvatar = document.querySelector('.popup_type_edit-avatar');
 
 const userAvatar = querySelector('.profile__image');
 const userName = querySelector('.profile__title');
 const userBio = querySelector('.profile__description');
 const profileEditForm = document.forms['edit-profile'];
-const profileEditSubmitButton = querySelector('.popup__button');
+const profileEditSubmitButton = profileEditForm.querySelector('.popup__button');
 const userNameInput = profileEditForm.elements.name;
 const userBioInput = profileEditForm.elements.description;
 
@@ -78,35 +76,19 @@ const toggleLoadingState = (buttonElement, isLoading, defaultText = 'Сохра�
 };
 
 
-const handleCardLike = async ({ cardId, buttonElement, counterElement }) => {
-  buttonElement.disabled = true;
 
-  try {
-    const { likes } = buttonElement.classList.contains('card__like-button_is-active')
-      ? await APIUnLikeCard(cardId)
-      : await APILikeCard(cardId);
-
-    buttonElement.classList.toggle('card__like-button_is-active');
-    counterElement.classList.toggle('card__like-counter_is-active', likes.length > 0);
-    counterElement.textContent = likes.length || '';
-  } catch (error) {
-    console.error(error);
-  } finally {
-    buttonElement.disabled = false;
-  }
-};
 
 
 const handleDeleteCard = async ({ cardId, buttonElement }) => {
-  openPopup(popupDeleteConfirm);
+  openModal(popupDeleteConfirm);
 
   confirmDeleteButton.onclick = async () => {
     buttonElement.disabled = true;
 
     try {
       await APIDeleteCard(cardId);
-      buttonElement.closest('.card').remove();
-      closePopup(popupDeleteConfirm);
+      removeCard(buttonElement);
+      closeModal(popupDeleteConfirm);
     } catch (error) {
       console.error(error);
       buttonElement.disabled = false;
@@ -138,7 +120,7 @@ const handleCardFormSubmit = async (event) => {
     );
 
     cardCreationForm.reset();
-    closePopup(popupNewCard);
+    closeModal(popupNewCard);
   } catch (error) {
     console.error(error);
   } finally {
@@ -159,7 +141,7 @@ const handleProfileEditSubmit = async (event) => {
     });
 
     updateProfileData({ name, description: about, avatar });
-    closePopup(popupEditProfile);
+    closeModal(popupEditProfile);
   } catch (error) {
     console.error(error);
   } finally {
@@ -176,7 +158,7 @@ const handleAvatarEditSubmit = async (event) => {
   try {
     const { name, about, avatar } = await APIChangeAvatar(avatarUrlInput.value);
     updateProfileData({ name, description: about, avatar });
-    closePopup(popupEditAvatar);
+    closeModal(popupEditAvatar);
   } catch (error) {
     console.error(error);
   } finally {
@@ -190,14 +172,14 @@ const handleProfileEditButtonClick = () => {
   userBioInput.value = userBio.textContent;
 
   resetFormValidation(profileEditForm, validationSettings);
-  openPopup(popupEditProfile);
+  openModal(popupEditProfile);
 };
 
 
 const handleNewCardButtonClick = () => {
   cardCreationForm.reset();
   resetFormValidation(cardCreationForm, validationSettings);
-  openPopup(popupNewCard);
+  openModal(popupNewCard);
 };
 
 
@@ -206,14 +188,14 @@ const handleCardImageClick = ({ cardName, cardLink }) => {
   popupImageElement.alt = cardName;
   popupImageCaption.textContent = cardName;
 
-  openPopup(popupImageView);
+  openModal(popupImageView);
 };
 
 
 const handleAvatarClick = () => {
   avatarEditForm.reset();
   resetFormValidation(avatarEditForm, validationSettings);
-  openPopup(popupEditAvatar);
+  openModal(popupEditAvatar);
 };
 
 
@@ -221,17 +203,17 @@ cardCreationForm.addEventListener('submit', handleCardFormSubmit);
 profileEditForm.addEventListener('submit', handleProfileEditSubmit);
 avatarEditForm.addEventListener('submit', handleAvatarEditSubmit);
 
-popupImageView.addEventListener('click', handlePopupClick);
-popupEditAvatar.addEventListener('click', handlePopupClick);
+popupImageView.addEventListener('click', handleModalClick);
+popupEditAvatar.addEventListener('click', handleModalClick);
 userAvatar.addEventListener('click', handleAvatarClick);
 
-popupNewCard.addEventListener('click', handlePopupClick);
+popupNewCard.addEventListener('click', handleModalClick);
 openNewCardPopupButton.addEventListener('click', handleNewCardButtonClick);
 
-popupEditProfile.addEventListener('click', handlePopupClick);
+popupEditProfile.addEventListener('click', handleModalClick);
 openProfileEditPopupButton.addEventListener('click', handleProfileEditButtonClick);
 
-popupDeleteConfirm.addEventListener('click', handlePopupClick);
+popupDeleteConfirm.addEventListener('click', handleModalClick);
 
 initializeValidation(validationSettings);
 

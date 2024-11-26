@@ -1,19 +1,17 @@
 const isInputInvalid = (inputs) => inputs.some(input => input.checkValidity() === false);
 
-
-const displayInputError = ({ formElement, inputElement, inputErrorClass, errorClass, errorMessage }) => {
+const displayInputError = ({ formElement, inputElement, inputErrorClass, errorClass }) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   if (!errorElement) return;
 
   errorElement.classList.add(errorClass);
-  errorElement.textContent = errorMessage;
+  errorElement.textContent = inputElement.validationMessage; 
   inputElement.classList.add(inputErrorClass);
 };
 
-
 const clearInputError = ({ formElement, inputElement, inputErrorClass, errorClass }) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  if (!errorElement) return; 
+  if (!errorElement) return;
 
   errorElement.classList.remove(errorClass);
   errorElement.textContent = '';
@@ -21,7 +19,7 @@ const clearInputError = ({ formElement, inputElement, inputErrorClass, errorClas
 };
 
 const validateInput = ({ formElement, inputElement, inputErrorClass, errorClass }) => {
-  const { validity, dataset, validationMessage } = inputElement;
+  const { validity, dataset } = inputElement;
   if (validity.patternMismatch) {
     inputElement.setCustomValidity(dataset.errorMessage);
   } else {
@@ -32,7 +30,6 @@ const validateInput = ({ formElement, inputElement, inputErrorClass, errorClass 
     displayInputError({
       formElement,
       inputElement,
-      errorMessage: validationMessage,
       errorClass,
       inputErrorClass,
     });
@@ -46,13 +43,11 @@ const validateInput = ({ formElement, inputElement, inputErrorClass, errorClass 
   }
 };
 
-
 const updateButtonState = ({ inputList, submitButtonElement, inactiveButtonClass }) => {
   const isInvalid = inputList.some(input => !input.validity.valid);
   submitButtonElement.disabled = isInvalid;
   submitButtonElement.classList.toggle(inactiveButtonClass, isInvalid);
 };
-
 
 const attachInputListeners = ({
   formElement,
@@ -87,8 +82,6 @@ const initializeValidation = ({
   const formList = document.querySelectorAll(formSelector);
 
   formList.forEach(formElement => {
-    formElement.addEventListener('submit', event => event.preventDefault());
-
     attachInputListeners({
       formElement,
       inputSelector,

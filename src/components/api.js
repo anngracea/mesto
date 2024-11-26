@@ -87,10 +87,6 @@ const editUserProfile = async ({ name, description }) => {
 
 
 const changeUserAvatar = async (avatarUrl) => {
-  if (!avatarUrl || typeof avatarUrl !== "string") {
-    throw new Error("Ошибка: Неверный URL аватара");
-  }
-
   try {
     const response = await fetch(`${SETTINGS.apiEndpoint}/users/me/avatar`, {
       method: "PATCH",
