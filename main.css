@@ -18,12 +18,12 @@
 .places__list{grid-gap:20px 18px;display:grid;grid-template-columns:repeat(auto-fit,282px);justify-content:center;list-style-type:none;margin:0;padding:0}
 
 .places{font-family:Inter,Arial,sans-serif;padding:15px 0 36px}@media screen and (max-width:568px){.places{padding:15px 0 18px}}
-.card__description{align-items:center;background:#fff;display:flex;justify-content:space-between;padding:25px 20px}
+.card__description{align-items:center;background:#fff;border-radius:0 0 10px 10px;display:flex;justify-content:space-between;padding:25px 20px}
 .card__image{height:282px;-o-object-fit:cover;object-fit:cover;width:100%}.card__image:hover{cursor:pointer}
-.card__like-block{display:grid;gap:5px;justify-items:center}
+.card__like-block{display:flex;flex-direction:column;gap:3px;max-width:22px;width:100%}
 .card__like-button{background:transparent url(images/like-inactive.49570bcb1d637fdb38e5.svg) no-repeat;background-size:21px 18px;border:none;cursor:pointer;height:18px;margin:0;padding:0;transition:.3s;width:21px}.card__like-button:hover{opacity:.6}
 .card__like-button_is-active{background:transparent url(images/like-active.75438e944a43e4c0b404.svg) no-repeat}
-.card__like-counter{color:#000;display:none;font-size:13px;line-height:normal;text-align:center}
+.card__like-counter{color:#000;display:inline-block;font-size:13px;margin:0;text-align:center}
 .card__like-counter_is-active{display:inline-block}
 .card__delete-button{background:transparent url(images/delete-icon.a274c87c0f6b553b47ad.svg) 50% no-repeat;background-size:18px 18px;border:none;cursor:pointer;display:none;height:18px;margin:0;padding:0;position:absolute;right:15px;top:18px;transition:.3s;width:18px}.card__delete-button:hover{opacity:.6}
 .card__delete-button_is-active{display:block}
